@@ -2,6 +2,17 @@
 
 package model
 
+type AddCategoryInput struct {
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
+}
+
+type AddCourseInput struct {
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
+	CategoryID  string  `json:"categoryId"`
+}
+
 type Category struct {
 	ID          string    `json:"id"`
 	Name        string    `json:"name"`
@@ -14,17 +25,6 @@ type Course struct {
 	Name        string    `json:"name"`
 	Description *string   `json:"description,omitempty"`
 	Category    *Category `json:"category"`
-}
-
-type CreateCategoryInput struct {
-	Name        string  `json:"name"`
-	Description *string `json:"description,omitempty"`
-}
-
-type CreateCourseInput struct {
-	Name        string  `json:"name"`
-	Description *string `json:"description,omitempty"`
-	CategoryID  string  `json:"categoryId"`
 }
 
 type Mutation struct {

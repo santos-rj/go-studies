@@ -62,8 +62,8 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddCategory func(childComplexity int, input model.CreateCategoryInput) int
-		AddCourse   func(childComplexity int, input model.CreateCourseInput) int
+		AddCategory func(childComplexity int, input model.AddCategoryInput) int
+		AddCourse   func(childComplexity int, input model.AddCourseInput) int
 	}
 
 	Query struct {
@@ -73,8 +73,8 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	AddCategory(ctx context.Context, input model.CreateCategoryInput) (*model.Category, error)
-	AddCourse(ctx context.Context, input model.CreateCourseInput) (*model.Course, error)
+	AddCategory(ctx context.Context, input model.AddCategoryInput) (*model.Category, error)
+	AddCourse(ctx context.Context, input model.AddCourseInput) (*model.Course, error)
 }
 type QueryResolver interface {
 	Categories(ctx context.Context) ([]*model.Category, error)
@@ -166,7 +166,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.AddCategory(childComplexity, args["input"].(model.CreateCategoryInput)), true
+		return e.complexity.Mutation.AddCategory(childComplexity, args["input"].(model.AddCategoryInput)), true
 
 	case "Mutation.addCourse":
 		if e.complexity.Mutation.AddCourse == nil {
@@ -178,7 +178,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.AddCourse(childComplexity, args["input"].(model.CreateCourseInput)), true
+		return e.complexity.Mutation.AddCourse(childComplexity, args["input"].(model.AddCourseInput)), true
 
 	case "Query.categories":
 		if e.complexity.Query.Categories == nil {
@@ -202,8 +202,8 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	opCtx := graphql.GetOperationContext(ctx)
 	ec := executionContext{opCtx, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
-		ec.unmarshalInputCreateCategoryInput,
-		ec.unmarshalInputCreateCourseInput,
+		ec.unmarshalInputAddCategoryInput,
+		ec.unmarshalInputAddCourseInput,
 	)
 	first := true
 
@@ -333,13 +333,13 @@ func (ec *executionContext) field_Mutation_addCategory_args(ctx context.Context,
 func (ec *executionContext) field_Mutation_addCategory_argsInput(
 	ctx context.Context,
 	rawArgs map[string]any,
-) (model.CreateCategoryInput, error) {
+) (model.AddCategoryInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateCategoryInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐCreateCategoryInput(ctx, tmp)
+		return ec.unmarshalNAddCategoryInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐAddCategoryInput(ctx, tmp)
 	}
 
-	var zeroVal model.CreateCategoryInput
+	var zeroVal model.AddCategoryInput
 	return zeroVal, nil
 }
 
@@ -356,13 +356,13 @@ func (ec *executionContext) field_Mutation_addCourse_args(ctx context.Context, r
 func (ec *executionContext) field_Mutation_addCourse_argsInput(
 	ctx context.Context,
 	rawArgs map[string]any,
-) (model.CreateCourseInput, error) {
+) (model.AddCourseInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateCourseInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐCreateCourseInput(ctx, tmp)
+		return ec.unmarshalNAddCourseInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐAddCourseInput(ctx, tmp)
 	}
 
-	var zeroVal model.CreateCourseInput
+	var zeroVal model.AddCourseInput
 	return zeroVal, nil
 }
 
@@ -869,7 +869,7 @@ func (ec *executionContext) _Mutation_addCategory(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().AddCategory(rctx, fc.Args["input"].(model.CreateCategoryInput))
+		return ec.resolvers.Mutation().AddCategory(rctx, fc.Args["input"].(model.AddCategoryInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -934,7 +934,7 @@ func (ec *executionContext) _Mutation_addCourse(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().AddCourse(rctx, fc.Args["input"].(model.CreateCourseInput))
+		return ec.resolvers.Mutation().AddCourse(rctx, fc.Args["input"].(model.AddCourseInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3175,8 +3175,8 @@ func (ec *executionContext) fieldContext___Type_isOneOf(_ context.Context, field
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputCreateCategoryInput(ctx context.Context, obj any) (model.CreateCategoryInput, error) {
-	var it model.CreateCategoryInput
+func (ec *executionContext) unmarshalInputAddCategoryInput(ctx context.Context, obj any) (model.AddCategoryInput, error) {
+	var it model.AddCategoryInput
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -3209,8 +3209,8 @@ func (ec *executionContext) unmarshalInputCreateCategoryInput(ctx context.Contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputCreateCourseInput(ctx context.Context, obj any) (model.CreateCourseInput, error) {
-	var it model.CreateCourseInput
+func (ec *executionContext) unmarshalInputAddCourseInput(ctx context.Context, obj any) (model.AddCourseInput, error) {
+	var it model.AddCourseInput
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -3845,6 +3845,16 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
+func (ec *executionContext) unmarshalNAddCategoryInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐAddCategoryInput(ctx context.Context, v any) (model.AddCategoryInput, error) {
+	res, err := ec.unmarshalInputAddCategoryInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNAddCourseInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐAddCourseInput(ctx context.Context, v any) (model.AddCourseInput, error) {
+	res, err := ec.unmarshalInputAddCourseInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v any) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -3974,16 +3984,6 @@ func (ec *executionContext) marshalNCourse2ᚖgithubᚗcomᚋsantosᚑrjᚋgoᚑ
 		return graphql.Null
 	}
 	return ec._Course(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNCreateCategoryInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐCreateCategoryInput(ctx context.Context, v any) (model.CreateCategoryInput, error) {
-	res, err := ec.unmarshalInputCreateCategoryInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalNCreateCourseInput2githubᚗcomᚋsantosᚑrjᚋgoᚑstudiesᚋgraphQLᚋgraphᚋmodelᚐCreateCourseInput(ctx context.Context, v any) (model.CreateCourseInput, error) {
-	res, err := ec.unmarshalInputCreateCourseInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v any) (string, error) {

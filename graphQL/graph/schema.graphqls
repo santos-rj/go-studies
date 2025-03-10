@@ -12,12 +12,12 @@ type Course {
   category: Category!
 }
 
-input CreateCategoryInput {
+input AddCategoryInput {
   name: String!
   description: String
 }
 
-input CreateCourseInput {
+input AddCourseInput {
   name: String!
   description: String
   categoryId: ID!
@@ -29,6 +29,6 @@ type Query {
 }
 
 type Mutation {
-  addCategory(input: CreateCategoryInput!): Category!
-  addCourse(input: CreateCourseInput!): Course!
+  addCategory(input: AddCategoryInput!): Category!
+  addCourse(input: AddCourseInput!): Course!
 }
